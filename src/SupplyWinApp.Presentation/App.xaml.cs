@@ -45,7 +45,7 @@ public partial class App : System.Windows.Application
 
     private void NavigateToMainMenu(string displayName, string role)
     {
-        var menuVm = new MainMenuViewModel(displayName, role);
+        var menuVm = new MainMenuViewModel(displayName, role, "VIRTUAL MACHINE");
 
         menuVm.MenuItemSelected += title =>
         {
@@ -55,6 +55,11 @@ public partial class App : System.Windows.Application
         menuVm.LogoutRequested += () =>
         {
             NavigateToLogin();
+        };
+
+        menuVm.SelectMachineRequested += () =>
+        {
+            // No-op for now — will be wired to machine selection later
         };
 
         _shell.NavigateTo(menuVm);

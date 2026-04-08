@@ -12,6 +12,12 @@
   <ItemGroup>
     <Resource Include="Assets\swa_login_bg.jpg" />
     <Resource Include="Assets\logo_red.png" />
+    <Resource Include="Assets\Icons\mdi_take.png" />
+    <Resource Include="Assets\Icons\mdi_reclaim.png" />
+    <Resource Include="Assets\Icons\mdi_return.png" />
+    <Resource Include="Assets\Icons\mdi_inventory_check.png" />
+    <Resource Include="Assets\Icons\mdi_stock.png" />
+    <Resource Include="Assets\Icons\mdi_adhoc_order.png" />
   </ItemGroup>
 
   <PropertyGroup>

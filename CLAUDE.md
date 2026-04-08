@@ -11,20 +11,15 @@ dotnet run --project src/SupplyWinApp.Presentation
 
 No test projects exist yet. No linter or formatter is configured.
 
-## Architecture
+## Context Files
 
-This is a WPF desktop application (.NET 8) following Clean Architecture with four layers:
+Read the following files for the full context of the application
 
-- **Domain** (`SupplyWinApp.Domain`) — Entities and repository interfaces. No dependencies on other projects.
-- **Application** (`SupplyWinApp.Application`) — DTOs, service interfaces, and service implementations. Depends on Domain.
-- **Infrastructure** (`SupplyWinApp.Infrastructure`) — Repository implementations (JSON file-based) and the DI registration extension method (`AddInfrastructure`). Depends on Application.
-- **Presentation** (`SupplyWinApp.Presentation`) — WPF UI layer. Depends on Infrastructure and Application.
-
-Dependency direction: Presentation -> Infrastructure -> Application -> Domain.
-
-## Key Patterns
-
-- **DI composition root** is in `App.xaml.cs`. Infrastructure services are registered via `services.AddInfrastructure(usersJsonPath)`. ViewModels are registered manually.
-- **MVVM** with a hand-rolled implementation: `ViewModelBase` (INotifyPropertyChanged), `RelayCommand`, and `ShellViewModel` for navigation via `CurrentViewModel` property and `DataTemplate` switching.
-- **Navigation**: `ShellViewModel.NavigateTo()` swaps the active ViewModel. `MainWindow.xaml` uses DataTemplates to map ViewModels to Views.
-- **Data storage**: User credentials are stored in `Infrastructure/Data/users.json`, copied to output directory at build time.
+- `project-overview.md` - Full project spec including features, data models, tech stack and UI/UX
+- `coding-standards.md` - Code conventions, patterns and rules for the AI to follow
+- `ai-interaction.md` - Workflow and communication guidelines for working with the AI
+- `current-feature.md` - Living document tracking the feature currently being worked on
+- `features/` - Feature spec files used with the `/feature` command
+- `fixes/` - Fix spec files for bugs and issues
+- `research/` - Research files used with the `/research` command to generate documentation
+- `screenshots/` - UI screenshots used as visual references for the AI

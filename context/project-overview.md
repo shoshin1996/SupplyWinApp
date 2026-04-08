@@ -164,23 +164,16 @@ Transaction
 
 ---
 
-## 🔌 Sync Architecture
+## Architecture
 
-```
-Device (Local Storage)
-     │
-     ├── Online? ──Yes──► Sync Immediately ──► Server
-     │
-     └── No ──────────────► Tag as Unsent (0)
-                                  │
-                     (Interval sync or manual trigger)
-                                  │
-                           Sync to Server
-                                  │
-                          Tag as Sent (1)
-```
+This is a WPF desktop application (.NET 8) following Clean Architecture with four layers:
 
----
+- **Domain** (`SupplyWinApp.Domain`) — Entities and repository interfaces. No dependencies on other projects.
+- **Application** (`SupplyWinApp.Application`) — DTOs, service interfaces, and service implementations. Depends on Domain.
+- **Infrastructure** (`SupplyWinApp.Infrastructure`) — Repository implementations (JSON file-based) and the DI registration extension method (`AddInfrastructure`). Depends on Application.
+- **Presentation** (`SupplyWinApp.Presentation`) — WPF UI layer. Depends on Infrastructure and Application.
+
+Dependency direction: Presentation -> Infrastructure -> Application -> Domain.
 
 ## 🔐 Auth Flow
 
