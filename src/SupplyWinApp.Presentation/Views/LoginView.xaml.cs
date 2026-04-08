@@ -15,5 +15,7 @@ public partial class LoginView : UserControl
     {
         if (DataContext is LoginViewModel vm)
             vm.Password = PasswordBox.Password;
+
+        PasswordBox.Tag = PasswordBox.Password.Length > 0 ? "HasContent" : null;
     }
 }

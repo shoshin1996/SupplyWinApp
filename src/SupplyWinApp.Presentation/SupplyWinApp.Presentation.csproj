@@ -9,6 +9,11 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="Assets\swa_login_bg.jpg" />
+    <Resource Include="Assets\logo_red.png" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>

@@ -11,13 +11,13 @@
         <DataTemplate DataType="{x:Type vm:LoginViewModel}">
             <views:LoginView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:MainViewModel}">
-            <views:MainView/>
+        <DataTemplate DataType="{x:Type vm:MainMenuViewModel}">
+            <views:MainMenuView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PlaceholderViewModel}">
+            <views:PlaceholderView/>
         </DataTemplate>
     </Window.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Auto">
-        <ContentControl Content="{Binding CurrentViewModel}"/>
-    </ScrollViewer>
+    <ContentControl Content="{Binding CurrentViewModel}"/>
 </Window>
