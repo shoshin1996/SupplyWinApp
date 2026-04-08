@@ -19,6 +19,12 @@
         <SolidColorBrush x:Key="TextLightBrush" Color="{StaticResource TextLightColor}"/>
         <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}"/>
 
+        <!-- Main Menu Colors -->
+        <Color x:Key="HeaderDarkColor">#111111</Color>
+        <Color x:Key="SubHeaderColor">#1A1A2E</Color>
+        <SolidColorBrush x:Key="HeaderDarkBrush" Color="{StaticResource HeaderDarkColor}"/>
+        <SolidColorBrush x:Key="SubHeaderBrush" Color="{StaticResource SubHeaderColor}"/>
+
         <!-- Converters -->
         <converters:NullToCollapsedConverter x:Key="NullToCollapsedConverter"/>
         <converters:PercentageConverter x:Key="PercentageConverter"/>
@@ -187,15 +193,16 @@
             </Setter>
         </Style>
 
-        <!-- Menu Item Button Style -->
+        <!-- Menu Item Button Style (red square buttons) -->
         <Style x:Key="MenuItemButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
+            <Setter Property="Background" Value="{StaticResource AccentRedBrush}"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Padding" Value="20,18"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -208,7 +215,37 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#2A4060"/>
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource AccentRedHoverBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Menu Action Button Style (SELECT MACHINE, LOGOUT) -->
+        <Style x:Key="MenuActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2A2A3E"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3A3A50"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

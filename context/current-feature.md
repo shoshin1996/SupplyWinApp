@@ -1,16 +1,27 @@
-# Current Feature
+# Current Feature: Redesign MainMenuView to Match Screenshot
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Define goals when a feature is loaded -->
+- Redesign MainMenuView to match the screenshot (`context/screenshots/main-menu-ui.png`)
+- Dark background with red square buttons in a 3x2 grid layout
+- Branded header with logo + "SUPPLYSYSTEM INTELLIGENT SOFTWARE" and user icon + "CUSTOMIZE"
+- Sub-header showing "VIRTUAL MACHINE" label + machine name
+- 6 menu items: TAKE, RECLAIM, RETURN, INVENTORY CHECK, STOCK, ADHOC ORDER with icon images
+- Bottom action buttons: SELECT MACHINE and LOGOUT
+- Footer with thin red accent bar
+- Background uses `swa_login_bg.jpg` with dark overlay (same as LoginView)
 
 ## Notes
 
-<!-- Add notes when a feature is loaded -->
+- Icon property changes from emoji to image path string; XAML uses `<Image Source="{Binding Icon}"/>`
+- UniformGrid for consistent button sizing in 3x2 grid
+- Files to modify: App.xaml, .csproj (icon assets), MainMenuViewModel.cs, App.xaml.cs, MainMenuView.xaml
+- Copy icon PNGs from `context/assets/icons/` to `src/SupplyWinApp.Presentation/Assets/Icons/`
+- Full plan details in `context/features/implement-main-menu-ui.md`
 
 ## History
 

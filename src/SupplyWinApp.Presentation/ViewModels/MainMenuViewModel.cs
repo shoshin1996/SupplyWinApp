@@ -14,19 +14,21 @@ public class MainMenuViewModel : ViewModelBase
 {
     public string DisplayName { get; }
     public string Role { get; }
-    public string WelcomeMessage { get; }
+    public string MachineName { get; }
     public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
     public event Action<string>? MenuItemSelected;
     public event Action? LogoutRequested;
+    public event Action? SelectMachineRequested;
 
     public ICommand LogoutCommand { get; }
+    public ICommand SelectMachineCommand { get; }
 
-    public MainMenuViewModel(string displayName, string role)
+    public MainMenuViewModel(string displayName, string role, string machineName)
     {
         DisplayName = displayName;
         Role = role;
-        WelcomeMessage = $"Welcome, {displayName}";
+        MachineName = machineName;
 
         LogoutCommand = new RelayCommand(() =>
         {
@@ -34,22 +36,21 @@ public class MainMenuViewModel : ViewModelBase
             return Task.CompletedTask;
         });
 
-        var items = new List<MenuItemViewModel>
+        SelectMachineCommand = new RelayCommand(() =>
         {
-            CreateMenuItem("Take", "\u2B07"),
-            CreateMenuItem("Return", "\u2B06"),
-            CreateMenuItem("Inventory", "\uD83D\uDCE6"),
+            SelectMachineRequested?.Invoke();
+            return Task.CompletedTask;
+        });
+
+        MenuItems = new ObservableCollection<MenuItemViewModel>
+        {
+            CreateMenuItem("TAKE", "/Assets/Icons/mdi_take.png"),
+            CreateMenuItem("RECLAIM", "/Assets/Icons/mdi_reclaim.png"),
+            CreateMenuItem("RETURN", "/Assets/Icons/mdi_return.png"),
+            CreateMenuItem("INVENTORY CHECK", "/Assets/Icons/mdi_inventory_check.png"),
+            CreateMenuItem("STOCK", "/Assets/Icons/mdi_stock.png"),
+            CreateMenuItem("ADHOC ORDER", "/Assets/Icons/mdi_adhoc_order.png"),
         };
-
-        if (string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
-        {
-            items.Add(CreateMenuItem("Load", "\uD83D\uDCE5"));
-            items.Add(CreateMenuItem("Unload", "\uD83D\uDCE4"));
-        }
-
-        items.Add(CreateMenuItem("Settings", "\u2699"));
-
-        MenuItems = new ObservableCollection<MenuItemViewModel>(items);
     }
 
     private MenuItemViewModel CreateMenuItem(string title, string icon)
