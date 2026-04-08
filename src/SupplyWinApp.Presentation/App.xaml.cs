@@ -8,6 +8,7 @@ namespace SupplyWinApp.Presentation;
 public partial class App : System.Windows.Application
 {
     private ServiceProvider? _serviceProvider;
+    private ShellViewModel _shell = null!;
 
     protected override void OnStartup(System.Windows.StartupEventArgs e)
     {
@@ -22,18 +23,53 @@ public partial class App : System.Windows.Application
 
         _serviceProvider = services.BuildServiceProvider();
 
-        var shell = _serviceProvider.GetRequiredService<ShellViewModel>();
-        var loginVm = _serviceProvider.GetRequiredService<LoginViewModel>();
+        _shell = _serviceProvider.GetRequiredService<ShellViewModel>();
+
+        NavigateToLogin();
+
+        var mainWindow = new MainWindow { DataContext = _shell };
+        mainWindow.Show();
+    }
+
+    private void NavigateToLogin()
+    {
+        var loginVm = _serviceProvider!.GetRequiredService<LoginViewModel>();
 
         loginVm.LoginSucceeded += result =>
         {
-            shell.NavigateTo(new MainViewModel(result.DisplayName!, result.Role!));
+            NavigateToMainMenu(result.DisplayName!, result.Role!);
         };
 
-        shell.NavigateTo(loginVm);
+        _shell.NavigateTo(loginVm);
+    }
 
-        var mainWindow = new MainWindow { DataContext = shell };
-        mainWindow.Show();
+    private void NavigateToMainMenu(string displayName, string role)
+    {
+        var menuVm = new MainMenuViewModel(displayName, role);
+
+        menuVm.MenuItemSelected += title =>
+        {
+            NavigateToPlaceholder(title, menuVm);
+        };
+
+        menuVm.LogoutRequested += () =>
+        {
+            NavigateToLogin();
+        };
+
+        _shell.NavigateTo(menuVm);
+    }
+
+    private void NavigateToPlaceholder(string title, MainMenuViewModel menuVm)
+    {
+        var placeholderVm = new PlaceholderViewModel(title);
+
+        placeholderVm.BackRequested += () =>
+        {
+            _shell.NavigateTo(menuVm);
+        };
+
+        _shell.NavigateTo(placeholderVm);
     }
 
     protected override void OnExit(System.Windows.ExitEventArgs e)

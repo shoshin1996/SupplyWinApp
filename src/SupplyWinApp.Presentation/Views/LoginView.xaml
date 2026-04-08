@@ -2,61 +2,105 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center"
-          MinWidth="300" MaxWidth="400"
-          Margin="20">
-        <Grid.Width>
-            <Binding RelativeSource="{RelativeSource AncestorType=UserControl}"
-                     Path="ActualWidth"
-                     Converter="{StaticResource PercentageConverter}"
-                     ConverterParameter="0.35"/>
-        </Grid.Width>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="12"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="12"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <UserControl.Resources>
+        <CubicEase x:Key="CardEase" EasingMode="EaseOut"/>
+    </UserControl.Resources>
 
-        <!-- Title -->
-        <TextBlock Grid.Row="0"
-                   Text="SupplyWinApp Login"
-                   FontSize="22" FontWeight="Bold"
-                   HorizontalAlignment="Center"/>
+    <!-- Full-screen background image -->
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/swa_login_bg.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
 
-        <!-- Username -->
-        <StackPanel Grid.Row="2">
-            <TextBlock Text="Username" Margin="0,0,0,4"/>
-            <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
-                     Padding="8,6" FontSize="14"/>
-        </StackPanel>
+        <!-- Dark overlay for contrast -->
+        <Rectangle Fill="#1B2A4A" Opacity="0.45"/>
 
-        <!-- Password -->
-        <StackPanel Grid.Row="4">
-            <TextBlock Text="Password" Margin="0,0,0,4"/>
-            <PasswordBox x:Name="PasswordBox"
-                         Padding="8,6" FontSize="14"
-                         PasswordChanged="PasswordBox_PasswordChanged"/>
-        </StackPanel>
+        <!-- Centered login card -->
+        <Border Background="{StaticResource CardBackgroundBrush}"
+                CornerRadius="10"
+                Padding="40,35"
+                MinWidth="340" MaxWidth="380"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Opacity="0">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="30" ShadowDepth="0" Opacity="0.4" Color="Black"/>
+            </Border.Effect>
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="CardTranslate"/>
+            </Border.RenderTransform>
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="Border.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             From="0" To="1" Duration="0:0:0.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="CardTranslate"
+                                             Storyboard.TargetProperty="Y"
+                                             From="20" To="0" Duration="0:0:0.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
 
-        <!-- Error Message -->
-        <!--<TextBlock Grid.Row="6"
-                   Text="{Binding ErrorMessage}"
-                   Foreground="Red" FontSize="12"
-                   TextWrapping="Wrap"
-                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullToCollapsedConverter}}"/>-->
+            <StackPanel>
+                <!-- Logo area -->
+                <StackPanel HorizontalAlignment="Center" Margin="0,0,0,30">
+                    <!-- Logo icon -->
+                    <Image Source="/Assets/logo_red.png" Width="52" Height="52"
+                           HorizontalAlignment="Center" Margin="0,0,0,8"
+                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <TextBlock Text="SupplySystem"
+                               Foreground="White" FontSize="20" FontWeight="SemiBold"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="Intelligent Software"
+                               Foreground="{StaticResource TextMutedBrush}" FontSize="11"
+                               HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                </StackPanel>
 
-        <!-- Login Button -->
-        <Button Grid.Row="8"
-                Content="Login"
-                Command="{Binding LoginCommand}"
-                HorizontalAlignment="Stretch"
-                Padding="0,10" FontSize="14"
-                IsDefault="True"/>
+                <!-- Username field -->
+                <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource LoginTextBoxStyle}"
+                         Margin="0,0,0,12"/>
+
+                <!-- Password field -->
+                <PasswordBox x:Name="PasswordBox"
+                             Style="{StaticResource LoginPasswordBoxStyle}"
+                             PasswordChanged="PasswordBox_PasswordChanged"
+                             Margin="0,0,0,8"/>
+
+                <!-- Error message -->
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#FF6B6B" FontSize="12"
+                           TextWrapping="Wrap" Margin="0,0,0,8"
+                           Visibility="{Binding ErrorMessage, Converter={StaticResource NullToCollapsedConverter}}"/>
+
+                <!-- Login button -->
+                <Button Content="LOGIN"
+                        Command="{Binding LoginCommand}"
+                        Style="{StaticResource LoginButtonStyle}"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,8,0,0"
+                        IsDefault="True"/>
+
+                <!-- Version info -->
+                <StackPanel HorizontalAlignment="Center" Margin="0,24,0,0">
+                    <TextBlock Text="911620"
+                               Foreground="{StaticResource TextMutedBrush}" FontSize="11"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="v8n 1.3.22"
+                               Foreground="{StaticResource TextMutedBrush}" FontSize="10"
+                               HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
